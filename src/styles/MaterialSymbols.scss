@@ -1,0 +1,22 @@
+@mixin material-symbols($FILL: 0, $wght: 400, $GRAD: 0, $OPSZ: 48px) {
+    // FILL: 0, 1
+    // wght: 100, 200, 300, 400, 500, 600, 700
+    // GRAD: -25, 0, 200
+    // OPSZ: 20px, 24px, 40px, 48px
+    font-family: 'Material Symbols Outlined';
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+
+    user-select: none;
+    font-variation-settings: 'FILL'$FILL, 'wght'$wght, 'GRAD'$GRAD, 'OPSZ'$OPSZ;
+}
+
+.material-symbols {
+    @include material-symbols();
+}

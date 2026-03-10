@@ -1,0 +1,84 @@
+// 重訂顏色
+$primary: #1c7955;
+$secondary: #E386AA;
+
+// 引入 BS 
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+
+// 主題色中加入灰色
+$theme-colors: map-merge($theme-colors, ("gray": $gray-400));
+
+// 合併所有顏色
+$all-colors: map-merge($colors, $theme-colors);
+
+// 建立 root 變數
+:root {
+    @each $color, $value in $all-colors {
+
+        // 產生 50 - 450 的顏色
+        @for $i from 1 through 9 {
+            $step: $i * 50;
+            $tint: tint-color($value, 100% - 10% * $i);
+
+            --#{$prefix}#{$color}-#{$step}: #{$tint}; // HEX 格式
+            --#{$prefix}#{$color}-#{$step}-rgb: #{red($tint)},
+            #{green($tint)},
+            #{blue($tint)}; // RGB 數字格式
+        }
+
+        // 基準顏色
+        --#{$prefix}#{$color}-500: #{$value};
+        --#{$prefix}#{$color}-500-rgb: #{red($value)},
+        #{green($value)},
+        #{blue($value)};
+
+        // 產生 550 - 950 的顏色
+        @for $i from 1 through 9 {
+            $step: $i * 50 + 500;
+            $shade: shade-color($value, 10% * $i);
+
+            --#{$prefix}#{$color}-#{$step}: #{$shade}; // HEX 格式
+            --#{$prefix}#{$color}-#{$step}-rgb: #{red($shade)},
+            #{green($shade)},
+            #{blue($shade)}; // RGB 數字格式
+        }
+    }
+}
+
+// 建立背景與文字 Class
+@each $color, $value in $all-colors {
+
+    // 基礎 Class
+    .bg-#{$color} {
+        background-color: var(--#{$prefix}#{$color}-500) !important;
+    }
+
+    .text-#{$color} {
+        color: var(--#{$prefix}#{$color}-500) !important;
+    }
+
+    .text-bg-#{$color} {
+        color: #fff !important;
+        background-color: var(--#{$prefix}#{$color}-500) !important;
+    }
+
+    // 階梯 Class (50 - 950)
+    @for $i from 1 through 19 {
+        $step: $i * 50;
+
+        .bg-#{$color}-#{$step} {
+            background-color: var(--#{$prefix}#{$color}-#{$step}) !important;
+        }
+
+        .text-#{$color}-#{$step} {
+            color: var(--#{$prefix}#{$color}-#{$step}) !important;
+        }
+    }
+}
+
+// 引入完整 BS
+@import "bootstrap/scss/bootstrap";
